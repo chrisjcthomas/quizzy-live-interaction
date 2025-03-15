@@ -32,6 +32,8 @@ export default {
           success: "#10b981",    // Green
           error: "#ef4444",      // Red
           warning: "#f59e0b",    // Amber
+          correct: "#22C55E",    // Green for correct answers
+          incorrect: "#EF4444",  // Red for incorrect answers
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",

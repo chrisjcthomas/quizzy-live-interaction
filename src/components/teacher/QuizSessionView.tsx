@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useQuizSession } from "@/contexts/QuizSessionContext";
 import { Button } from "@/components/ui/button";
@@ -6,11 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { Play, AlertCircle, Users, ChevronRight, Clock, BarChart, Check } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 
-// Modified to accept quizId as a prop
-const QuizSessionView: React.FC<{ quizId: string }> = ({ quizId }) => {
+const QuizSessionView: React.FC<{ 
+  quizId: string;
+  onEndSession?: (sessionId: string | null) => void;
+}> = ({ 
+  quizId, 
+  onEndSession 
+}) => {
   const { 
     startSession, 
     sessionCode, 
@@ -24,14 +27,12 @@ const QuizSessionView: React.FC<{ quizId: string }> = ({ quizId }) => {
   } = useQuizSession();
   
   const { toast } = useToast();
-  const navigate = useNavigate();
   
   const [sessionState, setSessionState] = useState<'waiting' | 'question' | 'results'>('waiting');
   const [studentCount, setStudentCount] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [responseData, setResponseData] = useState<any[]>([]);
   
-  // Mock data for demo purposes
   const mockResults = [
     { name: 'Correct', value: 15, color: '#22C55E' },
     { name: 'Incorrect', value: 5, color: '#EF4444' }
@@ -44,19 +45,15 @@ const QuizSessionView: React.FC<{ quizId: string }> = ({ quizId }) => {
   }, [timeRemaining, sessionState]);
 
   useEffect(() => {
-    // If results are available, switch to results view
     if (showResults) {
       setSessionState('results');
     }
   }, [showResults]);
 
-  // Simulate students joining
   useEffect(() => {
     if (sessionState === 'waiting' && sessionCode) {
       const interval = setInterval(() => {
         setStudentCount(prev => {
-          // Randomly increase student count up to 20 
-          // In a real app this would be from WebSockets
           if (prev < 20 && Math.random() > 0.5) {
             return prev + 1;
           }
@@ -68,10 +65,8 @@ const QuizSessionView: React.FC<{ quizId: string }> = ({ quizId }) => {
     }
   }, [sessionState, sessionCode]);
 
-  // When question changes, reset the response data
   useEffect(() => {
     if (currentQuestion && sessionState === 'question') {
-      // Initialize with zero counts
       const initialData = currentQuestion.options.map(option => ({
         name: option.text,
         id: option.id,
@@ -82,11 +77,9 @@ const QuizSessionView: React.FC<{ quizId: string }> = ({ quizId }) => {
       setResponseData(initialData);
       setShowAnswer(false);
       
-      // Simulate responses coming in
       const interval = setInterval(() => {
         setResponseData(prev => {
           return prev.map(item => {
-            // Randomly increment the count for some options
             if (Math.random() > 0.7) {
               return {
                 ...item,
@@ -104,7 +97,6 @@ const QuizSessionView: React.FC<{ quizId: string }> = ({ quizId }) => {
 
   const handleStartSession = async () => {
     try {
-      // Now we use the quizId prop
       const code = await startSession(quizId);
       toast({
         title: "Session started",
@@ -136,7 +128,6 @@ const QuizSessionView: React.FC<{ quizId: string }> = ({ quizId }) => {
   const handleNextQuestion = async () => {
     const success = await advanceToNextQuestion();
     if (!success) {
-      // End of quiz
       await endSession();
       setSessionState('results');
     } else {
@@ -150,7 +141,10 @@ const QuizSessionView: React.FC<{ quizId: string }> = ({ quizId }) => {
 
   const handleEndSession = async () => {
     await endSession();
-    navigate("/teacher/dashboard");
+    
+    if (onEndSession) {
+      onEndSession(sessionCode || "session-123");
+    }
   };
 
   const renderSessionState = () => {

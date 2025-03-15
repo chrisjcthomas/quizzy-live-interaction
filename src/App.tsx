@@ -9,9 +9,10 @@ import { QuizSessionProvider } from "./contexts/QuizSessionContext";
 import Index from "./pages/Index";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import CreateQuiz from "./pages/CreateQuiz";
-import NotFound from "./pages/NotFound";
 import TeacherQuizSession from "./pages/TeacherQuizSession";
 import StudentQuizView from "./pages/StudentQuizView";
+import LeaderboardPage from "./pages/LeaderboardPage";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
               <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
               <Route path="/teacher/create-quiz" element={<CreateQuiz />} />
               <Route path="/teacher/start-quiz/:quizId" element={<TeacherQuizSession />} />
+              <Route path="/teacher/leaderboard/:sessionId" element={<LeaderboardPage />} />
               <Route path="/student/quiz/:sessionCode" element={<StudentQuizView />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

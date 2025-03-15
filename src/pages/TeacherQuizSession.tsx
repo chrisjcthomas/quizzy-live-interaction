@@ -84,7 +84,16 @@ const TeacherQuizSession: React.FC = () => {
             </div>
           </div>
         ) : (
-          <QuizSessionView quizId={quizId || ""} />
+          <QuizSessionView 
+            quizId={quizId || ""} 
+            onEndSession={(sessionId) => {
+              if (sessionId) {
+                navigate(`/teacher/leaderboard/${sessionId}`);
+              } else {
+                navigate("/teacher/dashboard");
+              }
+            }}
+          />
         )}
       </main>
     </div>

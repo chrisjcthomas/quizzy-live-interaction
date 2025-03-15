@@ -6,6 +6,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { Play, AlertCircle, Users, ChevronRight, Clock, BarChart, Check } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
+import { useNavigate } from "react-router-dom";
 
 const QuizSessionView: React.FC<{ 
   quizId: string;
@@ -27,6 +28,7 @@ const QuizSessionView: React.FC<{
   } = useQuizSession();
   
   const { toast } = useToast();
+  const navigate = useNavigate();
   
   const [sessionState, setSessionState] = useState<'waiting' | 'question' | 'results'>('waiting');
   const [studentCount, setStudentCount] = useState(0);
@@ -143,7 +145,11 @@ const QuizSessionView: React.FC<{
     await endSession();
     
     if (onEndSession) {
-      onEndSession(sessionCode || "session-123");
+      onEndSession(sessionCode);
+    }
+    
+    if (sessionCode) {
+      navigate(`/teacher/leaderboard/${sessionCode}`);
     }
   };
 

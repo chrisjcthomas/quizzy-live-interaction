@@ -10,6 +10,8 @@ import Index from "./pages/Index";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import CreateQuiz from "./pages/CreateQuiz";
 import NotFound from "./pages/NotFound";
+import TeacherQuizSession from "./pages/TeacherQuizSession";
+import StudentQuizView from "./pages/StudentQuizView";
 
 const queryClient = new QueryClient();
 

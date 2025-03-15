@@ -84,7 +84,7 @@ const TeacherQuizSession: React.FC = () => {
             </div>
           </div>
         ) : (
-          <QuizSessionView />
+          <QuizSessionView quizId={quizId || ""} />
         )}
       </main>
     </div>

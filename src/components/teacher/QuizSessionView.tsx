@@ -6,10 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { Play, AlertCircle, Users, ChevronRight, Clock, BarChart, Check } from "lucide-react";
-import { teacherService } from "@/services/mockData";
 import { useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 
+// Modified to accept quizId as a prop
 const QuizSessionView: React.FC<{ quizId: string }> = ({ quizId }) => {
   const { 
     startSession, 
@@ -104,6 +104,7 @@ const QuizSessionView: React.FC<{ quizId: string }> = ({ quizId }) => {
 
   const handleStartSession = async () => {
     try {
+      // Now we use the quizId prop
       const code = await startSession(quizId);
       toast({
         title: "Session started",

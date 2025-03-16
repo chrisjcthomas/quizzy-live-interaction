@@ -58,10 +58,9 @@ const Index = () => {
         <div className="flex-1 bg-white p-8 md:p-16 flex items-center justify-center">
           <div className="w-full max-w-md">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
+              <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="join">Join Quiz</TabsTrigger>
                 <TabsTrigger value="login">Log In</TabsTrigger>
-                <TabsTrigger value="signup">Sign Up</TabsTrigger>
               </TabsList>
               
               <TabsContent value="join" className="mt-6">
@@ -82,6 +81,29 @@ const Index = () => {
                   </p>
                 </div>
                 <LoginForm />
+                
+                <div className="mt-4 text-center">
+                  <Button 
+                    variant="link" 
+                    onClick={() => setActiveTab("reset-password")}
+                    className="text-sm text-muted-foreground"
+                  >
+                    Forgot your password?
+                  </Button>
+                </div>
+                
+                <div className="mt-6 pt-6 border-t text-center">
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Don't have an account yet?
+                  </p>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setActiveTab("signup")}
+                    className="w-full"
+                  >
+                    Sign up
+                  </Button>
+                </div>
               </TabsContent>
               
               <TabsContent value="signup" className="mt-6">
@@ -92,6 +114,28 @@ const Index = () => {
                   </p>
                 </div>
                 <SignupForm />
+                
+                <div className="mt-6 text-center">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Already have an account?
+                  </p>
+                  <Button 
+                    variant="link" 
+                    onClick={() => setActiveTab("login")}
+                  >
+                    Log in
+                  </Button>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="reset-password" className="mt-6">
+                <div className="text-center mb-6">
+                  <h2 className="text-2xl font-bold mb-2">Reset Password</h2>
+                  <p className="text-muted-foreground">
+                    Enter your email to receive a password reset link
+                  </p>
+                </div>
+                <PasswordResetForm onBackToLogin={() => setActiveTab("login")} />
               </TabsContent>
             </Tabs>
           </div>

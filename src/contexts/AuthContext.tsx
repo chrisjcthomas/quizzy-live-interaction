@@ -17,6 +17,7 @@ interface AuthContextType {
   signup: (name: string, email: string, password: string, role: UserRole) => Promise<void>;
   logout: () => void;
   joinAsStudent: (name: string, sessionCode: string) => Promise<{sessionId: string, studentId: string}>;
+  resetPassword: (email: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -98,13 +99,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { sessionId, studentId };
   };
 
+  // Mock reset password function
+  const resetPassword = async (email: string) => {
+    setLoading(true);
+    
+    // Simulating API call delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // In a real app, send reset password request to backend
+    setLoading(false);
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem("quizUser");
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout, joinAsStudent }}>
+    <AuthContext.Provider value={{ user, loading, login, signup, logout, joinAsStudent, resetPassword }}>
       {children}
     </AuthContext.Provider>
   );

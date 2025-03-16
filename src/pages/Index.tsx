@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LoginForm from "@/components/auth/LoginForm";
 import SignupForm from "@/components/auth/SignupForm";
 import StudentJoinForm from "@/components/auth/StudentJoinForm";
+import PasswordResetForm from "@/components/auth/PasswordResetForm";
 import { Lightbulb, Users, Zap } from "lucide-react";
 
 const Index = () => {
